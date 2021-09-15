@@ -583,10 +583,8 @@ protected void acceptSourceMethod(
 		char[] uniqueKey) {
 
 	String name = new String(selector);
-	IMethod[] methods = null;
 	try {
-		methods = type.getMethods();
-		for (IMethod m : methods) {
+		for (IMethod m : type.getMethods()) {
 			if (m.getElementName().equals(name)
 					&& m.getParameterTypes().length == parameterTypeNames.length) {
 				IMethod method = m;
@@ -678,10 +676,8 @@ protected void acceptSourceMethod(
 }
 protected void acceptMethodDeclaration(IType type, char[] selector, int start, int end) {
 	String name = new String(selector);
-	IMethod[] methods = null;
 	try {
-		methods = type.getMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : type.getMethods()) {
 			ISourceRange range = method.getNameRange();
 			if(range.getOffset() <= start
 					&& range.getOffset() + range.getLength() >= end
@@ -741,16 +737,15 @@ public void acceptMethodTypeParameter(char[] declaringTypePackageName, char[] de
 		IMethod method = null;
 
 		String name = new String(selector);
-		IMethod[] methods = null;
 
 		try {
-			methods = type.getMethods();
-			done : for (int i = 0; i < methods.length; i++) {
-				ISourceRange range = methods[i].getNameRange();
+			IMethod[] methods = type.getMethods();
+			done : for (IMethod currentMethod : methods) {
+				ISourceRange range = currentMethod.getNameRange();
 				if(range.getOffset() >= selectorStart
 						&& range.getOffset() + range.getLength() <= selectorEnd
-						&& methods[i].getElementName().equals(name)) {
-					method = methods[i];
+						&& currentMethod.getElementName().equals(name)) {
+					method = currentMethod;
 					break done;
 				}
 			}
