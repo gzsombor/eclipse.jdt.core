@@ -631,13 +631,10 @@ protected void acceptSourceMethod(
 		char[] uniqueKey) {
 
 	String name = new String(selector);
-	IMethod[] methods = null;
 	try {
-		methods = type.getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].getElementName().equals(name)
-					&& methods[i].getParameterTypes().length == parameterTypeNames.length) {
-				IMethod method = methods[i];
+		for (IMethod method : type.getMethods()) {
+			if (method.getElementName().equals(name)
+					&& method.getParameterTypes().length == parameterTypeNames.length) {
 				if (uniqueKey != null) {
 					ResolvedSourceMethod resolvedMethod = new ResolvedSourceMethod(
 						(JavaElement)method.getParent(),
@@ -739,12 +736,12 @@ protected void acceptMethodDeclaration(IType type, char[] selector, int start, i
 	IMethod[] methods = null;
 	try {
 		methods = type.getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			ISourceRange range = methods[i].getNameRange();
+		for (IMethod method : methods) {
+			ISourceRange range = method.getNameRange();
 			if(range.getOffset() <= start
 					&& range.getOffset() + range.getLength() >= end
-					&& methods[i].getElementName().equals(name)) {
-				addElement(methods[i]);
+					&& method.getElementName().equals(name)) {
+				addElement(method);
 				if(SelectionEngine.DEBUG){
 					System.out.print("SELECTION - accept method("); //$NON-NLS-1$
 					System.out.print(this.elements[0].toString());
@@ -807,16 +804,15 @@ public void acceptMethodTypeParameter(char[] declaringTypePackageName, char[] de
 		IMethod method = null;
 
 		String name = new String(selector);
-		IMethod[] methods = null;
 
 		try {
-			methods = type.getMethods();
-			done : for (int i = 0; i < methods.length; i++) {
-				ISourceRange range = methods[i].getNameRange();
+			IMethod[] methods = type.getMethods();
+			done : for (IMethod currentMethod : methods) {
+				ISourceRange range = currentMethod.getNameRange();
 				if(range.getOffset() >= selectorStart
 						&& range.getOffset() + range.getLength() <= selectorEnd
-						&& methods[i].getElementName().equals(name)) {
-					method = methods[i];
+						&& currentMethod.getElementName().equals(name)) {
+					method = currentMethod;
 					break done;
 				}
 			}
