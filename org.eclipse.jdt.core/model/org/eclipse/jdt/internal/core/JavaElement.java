@@ -29,6 +29,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -279,7 +280,7 @@ public abstract class JavaElement extends PlatformObject implements IJavaElement
 	 *
 	 * @param type - one of the JEM_* constants defined by JavaElement
 	 */
-	public ArrayList getChildrenOfType(int type) throws JavaModelException {
+	public List<JavaElement> getChildrenOfType(int type) throws JavaModelException {
 		IJavaElement[] children = getChildren();
 		int size = children.length;
 		ArrayList list = new ArrayList(size);

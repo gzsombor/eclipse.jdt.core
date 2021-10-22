@@ -315,16 +315,15 @@ public class DeltaProcessingState implements IResourceChangeListener {
 	private RootInfos getRootInfos(boolean usePreviousSession) {
 		RootInfos ri = new RootInfos();
 
-		IJavaModel model = JavaModelManager.getJavaModelManager().getJavaModel();
-		IJavaProject[] projects;
+		JavaModel model = JavaModelManager.getJavaModelManager().getJavaModel();
+		List<JavaProject> projects;
 		try {
-			projects = model.getJavaProjects();
+			projects = model.getChildrenOfType(IJavaElement.JAVA_PROJECT);
 		} catch (JavaModelException e) {
 			// nothing can be done
 			return null;
 		}
-		for (int i = 0, length = projects.length; i < length; i++) {
-			JavaProject project = (JavaProject) projects[i];
+		for (var project : projects) {
 			IClasspathEntry[] classpath;
 			try {
 				if (usePreviousSession) {

@@ -16,6 +16,7 @@ package org.eclipse.jdt.internal.core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -215,12 +216,9 @@ public IJavaProject getJavaProject(IResource resource) {
  */
 @Override
 public IJavaProject[] getJavaProjects() throws JavaModelException {
-	ArrayList list = getChildrenOfType(JAVA_PROJECT);
-	IJavaProject[] array= new IJavaProject[list.size()];
-	list.toArray(array);
-	return array;
-
+	return getChildrenOfType(JAVA_PROJECT).toArray(IJavaProject[]::new);
 }
+
 /**
  * @see IJavaModel
  */

@@ -319,7 +319,7 @@ public IField[] getRecordComponents() throws JavaModelException {
 	return getFieldsOrComponents(true);
 }
 private IField[] getFieldsOrComponents(boolean component) throws JavaModelException {
-	ArrayList list = getChildrenOfType(FIELD);
+	List<JavaElement> list = getChildrenOfType(FIELD);
 	if (list.size() == 0) {
 		return NO_FIELDS;
 	}
