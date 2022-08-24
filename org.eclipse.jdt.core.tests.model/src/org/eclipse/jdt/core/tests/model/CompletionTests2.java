@@ -2957,9 +2957,7 @@ public void testBug91772() throws Exception {
 
 		// TODO the following code is not the correct way to remove the container
 		// Cleanup caches
-		JavaModelManager manager = JavaModelManager.getJavaModelManager();
-		manager.containers = new HashMap(5);
-		manager.variables = new HashMap(5);
+		JavaModelManager.getJavaModelManager().resetVariablesAndContainers();
 	}
 }
 public void testBug93891() throws Exception {
@@ -3040,9 +3038,7 @@ public void testBug93891() throws Exception {
 
 		// TODO the following code is not the correct way to remove the container
 		// Cleanup caches
-		JavaModelManager manager = JavaModelManager.getJavaModelManager();
-		manager.containers = new HashMap(5);
-		manager.variables = new HashMap(5);
+		JavaModelManager.getJavaModelManager().resetVariablesAndContainers();
 
 		JavaCore.setOptions(oldOptions);
 	}

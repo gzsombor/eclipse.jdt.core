@@ -252,17 +252,17 @@ public class JavaModelManager implements ISaveParticipant, IContentTypeChangeLis
 	/**
 	 * Classpath variables pool
 	 */
-	public HashMap<String, IPath> variables = new HashMap<>(5);
+	private HashMap<String, IPath> variables = new HashMap<>(5);
 	public HashSet<String> variablesWithInitializer = new HashSet<>(5);
 	public HashMap<String, String> deprecatedVariables = new HashMap<>(5);
 	public HashSet<String> readOnlyVariables = new HashSet<>(5);
-	public HashMap<String, IPath> previousSessionVariables = new HashMap<>(5);
+	private HashMap<String, IPath> previousSessionVariables = new HashMap<>(5);
 	private ThreadLocal<Set<String>> variableInitializationInProgress = new ThreadLocal<>();
 
 	/**
 	 * Classpath containers pool
 	 */
-	public HashMap<IJavaProject, Map<IPath, IClasspathContainer>> containers = new HashMap<>(5);
+	private HashMap<IJavaProject, Map<IPath, IClasspathContainer>> containers = new HashMap<>(5);
 	public HashMap<IJavaProject, Map<IPath, IClasspathContainer>> previousSessionContainers = new HashMap<>(5);
 	private ThreadLocal<Map<IJavaProject, Set<IPath>>> containerInitializationInProgress = new ThreadLocal<>();
 	ThreadLocal<Map<IJavaProject, Map<IPath, IClasspathContainer>>> containersBeingInitialized = new ThreadLocal<>();
@@ -3899,12 +3899,7 @@ public class JavaModelManager implements ISaveParticipant, IContentTypeChangeLis
 
 				containerPut(project, path, container);
 
-				Map<IPath, IClasspathContainer> oldContainers = JavaModelManager.this.previousSessionContainers.get(project);
-
-				if (oldContainers == null) {
-					oldContainers = new HashMap<>();
-					JavaModelManager.this.previousSessionContainers.put(project, oldContainers);
-				}
+				Map<IPath, IClasspathContainer> oldContainers = JavaModelManager.this.previousSessionContainers.computeIfAbsent(project, (key) -> new HashMap<>());
 
 				oldContainers.put(path, container);
 			}
@@ -4180,11 +4175,7 @@ public class JavaModelManager implements ISaveParticipant, IContentTypeChangeLis
 				if (addToContainerValues) {
 					getJavaModelManager().containerPut(project, containerPath, container);
 				}
-				Map<IPath, IClasspathContainer> projectContainers = getJavaModelManager().previousSessionContainers.get(project);
-				if (projectContainers == null){
-					projectContainers = new HashMap<>(1);
-					getJavaModelManager().previousSessionContainers.put(project, projectContainers);
-				}
+				Map<IPath, IClasspathContainer> projectContainers = getJavaModelManager().previousSessionContainers.computeIfAbsent(project, (key) -> new HashMap<>(1));
 				projectContainers.put(containerPath, container);
 			}
 		}
@@ -5616,4 +5607,14 @@ public class JavaModelManager implements ISaveParticipant, IContentTypeChangeLis
 	private ClasspathAccessRule getFromCache(ClasspathAccessRule rule) {
 		return DeduplicationUtil.internObject(rule);
 	}
+
+	public void resetVariablesAndContainers() {
+		this.variables = new HashMap<>();
+		resetContainers();
+	}
+
+	public void resetContainers() {
+		this.containers  = new HashMap<>();
+	}
+
 }

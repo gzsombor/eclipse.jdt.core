@@ -54,7 +54,7 @@ public void testDeadlock01() throws CoreException {
 		project.getJavaModel().close();
 		JavaModelManager manager = JavaModelManager.getJavaModelManager();
 		manager.previousSessionContainers = new HashMap<>(5);
-		manager.containers = new HashMap<>(5);
+		manager.resetContainers();
 		manager.removePerProjectInfo((JavaProject)project, true /* remove external jar files indexes and timestamps*/);
 
 		// use a thread to hold the lock, so as to recreate potential deadlock situation

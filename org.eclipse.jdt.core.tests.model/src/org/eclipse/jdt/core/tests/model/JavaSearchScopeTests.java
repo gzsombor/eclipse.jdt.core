@@ -15,7 +15,6 @@ package org.eclipse.jdt.core.tests.model;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
 import junit.framework.Test;
 
@@ -54,9 +53,7 @@ static {
 @Override
 protected void tearDown() throws Exception {
 	// Cleanup caches
-	JavaModelManager manager = JavaModelManager.getJavaModelManager();
-	manager.containers = new HashMap<>(5);
-	manager.variables = new HashMap<>(5);
+	JavaModelManager.getJavaModelManager().resetVariablesAndContainers();
 
 	super.tearDown();
 }

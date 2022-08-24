@@ -98,9 +98,7 @@ static {
 @Override
 protected void tearDown() throws Exception {
 	// Cleanup caches
-	JavaModelManager manager = JavaModelManager.getJavaModelManager();
-	manager.containers = new HashMap(5);
-	manager.variables = new HashMap(5);
+	JavaModelManager.getJavaModelManager().resetVariablesAndContainers();
 
 	super.tearDown();
 }
