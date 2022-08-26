@@ -1485,8 +1485,9 @@ public class LambdaExpression extends FunctionalExpression implements IPolyExpre
 
 		@Override
 		public TypeBinding substitute(Substitution substitution, TypeBinding originalType) {
-			if (originalType.isLocalType()) {
-				LocalTypeBinding orgLocal = (LocalTypeBinding) originalType.original();
+			var originalBinding = originalType.original();
+			if (originalType.isLocalType() && originalBinding instanceof LocalTypeBinding) {
+				LocalTypeBinding orgLocal = (LocalTypeBinding) originalBinding;
 				MethodScope lambdaScope2 = orgLocal.scope.enclosingLambdaScope();
 				if (lambdaScope2 != null) {
 					// local type within a lambda may need replacement:
