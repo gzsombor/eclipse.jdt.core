@@ -717,7 +717,7 @@ public class FullSourceWorkspaceSearchTests extends FullSourceWorkspaceTests imp
 				IJavaElement enclosingElement= (IJavaElement) match.getElement();
 				enclosingElement.getElementName();
 				IPackageFragment pkg= (IPackageFragment) enclosingElement;
-				if (pkg.getCompilationUnits().length == 0 && pkg.getClassFiles().length == 0) {
+				if (pkg.getCompilationUnits().length == 0 && pkg.getOrdinaryClassFiles().length == 0) {
 					return;
 				}
 				packageList.add(enclosingElement);
