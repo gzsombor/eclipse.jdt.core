@@ -143,8 +143,7 @@ public class JarPackageFragmentRoot extends PackageFragmentRoot {
 					}
 				}
 
-				String[] supportedVersions = versions.toArray(new String[versions.size()]);
-				if (supportedVersions.length > 0) {
+				if (versions.size() > 0) {
 					this.multiVersion = true;
 				}
 				int length = version.length();
